@@ -28,8 +28,7 @@ No sensitive data is stored in this repository.
 ## 📂 Postman Files
 
 - **Collection**  
-  `collections/trello_api_collection.json`
-   [collections/trello_api_collection.json](https://github.com/ahmedsherifff4/Trello-API-Testing/blob/7718ee89eb86bff6be167680c21bfd50d4f64ac9/src/collectionstrello_api_collection.json)  
+   [`collections/trello_api_collection.json`](https://github.com/ahmedsherifff4/Trello-API-Testing/blob/7718ee89eb86bff6be167680c21bfd50d4f64ac9/src/collectionstrello_api_collection.json)  
 
 
 - **Environment**  
@@ -81,5 +80,6 @@ No sensitive data is stored in this repository.
 ## 👨‍💻 Author
 **Ahmed Sherif**  
 API Testing & Software Testing Enthusiast
+
 
 
