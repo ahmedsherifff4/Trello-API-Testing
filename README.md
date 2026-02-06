@@ -4,6 +4,9 @@
 A professional **API Testing project** for the **Trello REST API** using **Postman**.  
 The project validates core Trello functionalities with clean structure, reusable environment variables, and meaningful test assertions.
 
+🔗 **Trello Official Website:**  
+https://trello.com
+
 ---
 
 ## 🛠️ Tools & Technologies
@@ -81,6 +84,7 @@ No sensitive data is stored in this repository.
 ## 👨‍💻 By
 **Ahmed Sherif**  
 API Testing & Software Testing Enthusiast
+
 
 
 
