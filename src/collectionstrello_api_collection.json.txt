@@ -1,0 +1,236 @@
+{
+  "info": {
+    "_postman_id": "519f06f7-39f7-4da4-a546-e1dfcfea7acd",
+    "name": "Trello API Testing Collection",
+    "description": "End-to-end API testing for Trello REST API using Postman. Covers Boards and Lists with validations, performance checks, and environment variable chaining.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Boards APIs",
+      "item": [
+        {
+          "name": "Update Board Name",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_URL}}/boards/{{boardId}}?name={{boardName}}&key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["boards", "{{boardId}}"],
+              "query": [
+                { "key": "name", "value": "{{boardName}}" },
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response time < 700ms', () => pm.expect(pm.response.responseTime).to.be.below(700));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Board Stars",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_URL}}/boards/{{boardId}}/boardStars?key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["boards", "{{boardId}}", "boardStars"],
+              "query": [
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lists APIs",
+      "item": [
+        {
+          "name": "Create List",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_URL}}/lists?name={{listName}}&idBoard={{boardId}}&key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["lists"],
+              "query": [
+                { "key": "name", "value": "{{listName}}" },
+                { "key": "idBoard", "value": "{{boardId}}" },
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('List created successfully', () => pm.response.to.have.status(200));",
+                  "pm.environment.set('listId', pm.response.json().id);",
+                  "pm.test('List name is not null', () => pm.expect(pm.response.json().name).to.not.be.null);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update List Name",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_URL}}/lists/{{listId}}?name={{updatedListName}}&key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["lists", "{{listId}}"],
+              "query": [
+                { "key": "name", "value": "{{updatedListName}}" },
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('List name updated', () => pm.expect(pm.response.json().name).to.eql(pm.environment.get('updatedListName')));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Archive List",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_URL}}/lists/{{listId}}/closed?value=true&key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["lists", "{{listId}}", "closed"],
+              "query": [
+                { "key": "value", "value": "true" },
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('List archived successfully', () => pm.expect(pm.response.json().closed).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unarchive List",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_URL}}/lists/{{listId}}/closed?value=false&key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["lists", "{{listId}}", "closed"],
+              "query": [
+                { "key": "value", "value": "false" },
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('List unarchived successfully', () => pm.expect(pm.response.json().closed).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Board of a List",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_URL}}/lists/{{listId}}/board?key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["lists", "{{listId}}", "board"],
+              "query": [
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Utilities",
+      "item": [
+        {
+          "name": "Get My Boards",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_URL}}/members/me/boards?key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["members", "me", "boards"],
+              "query": [
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Lists of a Board",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_URL}}/boards/{{boardId}}/lists?key={{KEY}}&token={{TOKEN}}",
+              "host": ["{{base_URL}}"],
+              "path": ["boards", "{{boardId}}", "lists"],
+              "query": [
+                { "key": "key", "value": "{{KEY}}" },
+                { "key": "token", "value": "{{TOKEN}}" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
