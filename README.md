@@ -78,9 +78,10 @@ No sensitive data is stored in this repository.
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 By
 **Ahmed Sherif**  
 API Testing & Software Testing Enthusiast
+
 
 
 
